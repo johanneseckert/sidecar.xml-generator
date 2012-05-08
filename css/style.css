@@ -1,0 +1,152 @@
+body {
+	margin: 0px;
+	padding: 0;
+	font-family: "Helvetica Neue",Arial,sans-serif;
+	font-size: 12px;
+}
+
+header {
+	background: rgb(25,25,25);
+	padding: 15px;
+	color: white;
+}
+
+H1 {
+	font-size: 36px;
+	margin: 0;
+	padding: 0;
+}
+
+H1 span {
+	color: rgb(125,125,125);
+}
+
+footer {
+	position: fixed;
+	display: block;
+	width: 100%;
+	bottom: 0;
+	padding: 10px;
+	background: rgb(200,200,200);
+	color: rgb(100,100,100);
+}
+
+#menu {
+	background-image: -webkit-gradient(
+	    linear,
+	    left bottom,
+	    left top,
+	    color-stop(0.31, rgb(201,201,201)),
+	    color-stop(0.9, rgb(237,237,237)),
+	    color-stop(0.03, rgb(145,145,145))
+	);
+	background-image: -moz-linear-gradient(
+	    center bottom,
+	    rgb(201,201,201) 31%,
+	    rgb(237,237,237) 90%,
+	    rgb(145,145,145) 3%
+	);
+	padding: 5px;
+	min-height: 36px;
+}
+
+#menu .left {
+	width: 48%;
+	float: left;
+}
+
+#menu .right {
+	width: 48%;
+	float: right;
+	text-align: right;
+}
+
+A {
+	color: rgb(125,125,125);
+}
+
+.attention {
+	font-weight: bold;
+	color: #ffd300;
+}
+
+/* UI */
+
+#wrapper {
+	margin-bottom: 100px;
+}
+
+#articleheads {
+	color: white;
+	background: rgb(25,25,25);
+	padding: 5px 0 5px 10px;
+}
+
+#articlelist {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+}
+
+#articlelist LI {
+	margin: 0;
+	padding: 10px;
+}
+
+#articlelist LI DIV, #articleheads DIV {
+	display: inline-block;
+	margin-right: 10px;
+/*	outline: 1px solid red;
+*/
+}
+#articleheads DIV { margin-right: 7px; }
+#articleheads, #articlelist LI { min-width: 1470px; }
+
+.ordernumber {
+	text-align: right;
+	min-width: 15px;
+	color: rgb(150,150,150);
+}
+
+.grabber {
+	cursor: pointer;
+	min-width: 16px;
+}
+
+.foldername {
+	min-width: 100px;
+	width: 5%;
+}
+
+.articletitle, .description, .author {
+	min-width: 150px;
+	width: 10%;
+}
+
+.kicker, .tags {
+	min-width: 100px;
+	width: 5%;
+}
+
+.isad, .isflattenedstack {
+	width: 125px;
+}
+
+.smoothscrolling {
+	width: 280px;
+}
+
+input[type=text] {
+	width: 100%;
+}
+
+#dialog-message {
+	display: none;
+}
+
+#sidecar-output {
+	width: 100%;
+	height: 100%;
+	font-size: 10px;
+}

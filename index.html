@@ -1,0 +1,93 @@
+<!doctype html>  
+<!--
+	sidecar.xml generator for Adobe Digital Publishing Suite
+
+	by Johannes Henseler
+	digitalpublishing.tumblr.com
+-->
+<html>
+<head>
+<!-- title not visible in the viewer unless viewed with a browser / popup -->
+<title>Adobe DPS: sidecar.xml generator (v18)</title>
+	<meta charset="utf-8" />
+
+	<script type="text/javascript" src="http://use.typekit.com/tdq3fad.js"></script>
+	<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+
+	<link type="text/css" href="css/custom-theme/jquery-ui-1.8.13.custom.css" rel="stylesheet" />	
+	<link type="text/css" href="css/jquery.qtip.min.css" rel="stylesheet" />	
+	<link type="text/css" href="css/style.css" rel="stylesheet" />	
+</head>
+<body>
+	<header>
+		<h1>sidecar.xml generator <span>for Adobe's Digital Publishing Suite</span> (v18)</h1>
+	</header>
+	<div id="menu">
+		<div class="left">
+			<button id="add_article" title="Add a new article at the bottom">Add Article</button>
+		</div>
+		<div class="right">
+			<input type="checkbox" class="button" id="incllink" title="Include Permalink in sidecar file" checked="checked" /><label for="incllink">Include Link</label>
+			<button id="generate">Generate sidecar.xml</button>
+			<button id="save">Save</button>
+		</div>
+	</div>
+
+	<div id="wrapper">
+		<div id="articleheads">
+			<div class="grabber">&nbsp;</div>
+			<div class="ordernumber">#</div>
+			<div class="foldername">Article Name</div>
+			<div class="articletitle">Title</div>
+			<div class="description">Description</div>
+			<div class="author">Author</div>
+			<div class="kicker">Kicker</div>
+			<div class="tags">Tags</div>
+			<div class="isad">Advertisement</div>
+			<div class="smoothscrolling">Smooth scrolling <span class="attention" title="Set Smooth Scrolling to 'Off' when using 'Horizontal Swipe Only'!">Attention</span></div>
+			<div class="isflattenedstack">Horiz. Swipe Only</div>
+			<div class="remove">Delete</div>
+		</div>
+		<ul id="articlelist">
+			<li>Empty Folio</li>
+		</ul>
+	</div>
+
+<div id="dialog-message" title="your sidecar.xml">
+	<p>
+		<span class="ui-icon ui-icon-circle-check" style="float:left; margin:0 7px 50px 0;"></span>
+		Your sidecar.xml file has been generated. Save the text below into a sidecar.xml file, put it into it's own folder and import into Folio Builder Panel. <a href="http://help.adobe.com/en_US/digitalpubsuite/using/WS67cb9e293e2f1f6014465f4712f61e55c01-7fff.html#WS9293e1fb3b977c5c-3a30084513028f6630b-8000">Read more here.</a>
+	</p>
+	<p>
+		<textarea id="sidecar-output" cols="50" rows="20">[nothing here]</textarea>
+	</p>
+</div>
+
+	<footer>
+		v0.3.120123 &mdash; Brought to you by Johannes Henseler &mdash; <a href="http://digitalpublishing.tumblr.com">digitalpublishing.tumblr.com</a> &mdash; <a href="mailto:johannes@nordsueddesign.de">johannes@nordsueddesign.de</a>
+	</footer>
+
+
+	<script type="text/javascript" src="js/jquery-1.6.1.min.js"></script>
+	<script type="text/javascript" src="js/jquery-ui-1.8.13.custom.min.js"></script>
+	<script type="text/javascript" src="js/jquery.qtip.min.js"></script>
+	<script type="text/javascript" src="js/jquery.ba-bbq.min.js"></script>
+	<script type="text/javascript" src="js/XMLWriter-1.0.0-min.js"></script>
+
+	<script type="text/javascript" src="js/plugin.js"></script>
+
+	<script type="text/javascript">
+
+	  var _gaq = _gaq || [];
+	  _gaq.push(['_setAccount', 'UA-95147-25']);
+	  _gaq.push(['_trackPageview']);
+
+	  (function() {
+	    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	  })();
+
+	</script>
+</body>
+</html>

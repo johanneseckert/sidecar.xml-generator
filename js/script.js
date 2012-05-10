@@ -52,8 +52,8 @@ $(function() {
 			forcePlaceholderSize: true,
 			opacity: 0.8,
 			update: function(event, ui) {
-				var result = $(this).sortable('toArray');
-				builder.reOrder(result);
+//				var result = $(this).sortable('toArray');
+//				builder.reOrder(result);
 			}
 		});
 		$("#articles").disableSelection();
@@ -78,7 +78,6 @@ function article() {
 	folio.uid = folio.uid+1;
 
 	this.uid = folio.uid;
-	this.ordernumber = 0;
 	this.articlename = String("");
 	this.articletitle = "";
 	this.description = "";
@@ -100,7 +99,6 @@ function builder() {
 		var x = 0;
 		$.each(folio.articles, function(name,value) {
 			// force numbering to start at 0
-			value.ordernumber = x;
 			html = write_article_html(value);
 			// add to the list
 			$("#articles").append(html);
@@ -132,16 +130,135 @@ function builder() {
 	};
 
 	this.reOrder = function(newOrder) {
-		console.log("new order is: "+newOrder);
+//		console.log("new order is: "+newOrder);
 	};
+
+	this.generateSidecar = function() {
+		console.log("STARTING GENERATE sidecar.xml");
+
+		var xw = new XMLWriter("UTF-8","1.0");
+		xw.writeStartDocument(true);
+		xw.writeStartElement('sidecar');
+
+		// comment and info
+		var now = new Date();
+		var build_date = now.getFullYear()+"-"+(now.getMonth()+1)+"-"+now.getDate();
+		xw.writeComment("\nsidecar.xml generator by Johannes Henseler\nhttp://projects.nordsueddesign.de/sidecarxml\n\nBuilt on "+build_date+" using version 0.5 of the generator.\nTo edit this sidecar, import it into the generator again.\n\n");
+
+		// more magic here
+		// fetch all articles from the DOM
+		$("#articles > li").each(function (e) {
+			xw.writeComment('article #'+$(this).attr("data-article-nr"));
+			xw.writeStartElement('entry');
+				xw.writeElementString("folderName",String($(this).find(".article-name input").val()));
+				xw.writeElementString("articleTitle",String($(this).find(".article-title input").val()));
+				xw.writeElementString("description",String($(this).find(".article-desc input").val()));
+				xw.writeElementString("author",String($(this).find(".article-author input").val()));
+				xw.writeElementString("kicker",String($(this).find(".article-kicker input").val()));
+				xw.writeElementString("tags",String($(this).find(".article-tags input").val()));
+				// Hide from TOC
+				var output = ($(this).find(".article-hide .btn").hasClass("active")) ? "true" : "false";
+				xw.writeElementString("hideFromTOC",output);
+				// Advertisement
+				var output = ($(this).find(".article-adver .btn").hasClass("active")) ? "true" : "false";
+				xw.writeElementString("isAd",output);
+				// Flatten
+				var output = ($(this).find(".article-flatten .btn").hasClass("active")) ? "true" : "false";
+				xw.writeElementString("isFlattenedStack",output);
+				// smooth scrolling
+				var output = "never";
+				if ($(this).find(".btn_smooth_both").hasClass("active"))
+					output = "always";
+				if ($(this).find(".btn_smooth_horizontal").hasClass("active"))
+					output = "landscape";
+				if ($(this).find(".btn_smooth_vertical").hasClass("active"))
+					output = "vertical";
+				if ($(this).find(".btn_smooth_never").hasClass("active"))
+					output = "never";
+				xw.writeElementString("smoothScrolling",output);
+
+			xw.writeEndElement();
+		});
+
+/*
+		for (x=0;x<folio.articles.length;x++) {
+			data = folio.articles[x];
+			xw.writeComment('article #'+article.ordernumber+" uid: "+article.uid);
+			xw.writeStartElement('entry');
+				xw.writeElementString("folderName",String(article.foldername));
+				xw.writeElementString("articleTitle",String(article.articletitle));
+				xw.writeElementString("author",String(article.author));
+				xw.writeElementString("kicker",String(article.kicker));
+				xw.writeElementString("description",String(article.description));
+				xw.writeElementString("tags",String(article.tags));
+				xw.writeElementString("isAd",String(article.isad));
+				xw.writeElementString("smoothScrolling",String(article.smoothscrolling));
+				xw.writeElementString("isFlattenedStack",String(article.isflattenedstack));
+			xw.writeEndElement();
+		}
+*/
+
+		// close
+		xw.writeEndElement();
+
+		// OUTPUT
+		var xml = xw.flush(); //generate the xml string
+		xw.close();//clean the writer
+		xw = undefined;//don't let visitors use it, it's closed
+		//set the xml
+		$("#sidecar-generate").val(xml);
+	}
+
+	this.importSidecar = function() {
+		console.log("STARTING IMPORT");
+		var xml = $("#sidecar-import").val();
+		//console.log(xml);
+
+		// start fresh
+		$("#articles").html("");
+		// empty articles
+		folio.uid = 0;
+		folio.articles = new Array();
+
+		$(xml).find('entry').each(function() {
+			var $entry = $(this);
+
+			// add new article at the end.
+			folio.articles.push(new article());
+
+			var newArticle = folio.articles[folio.articles.length-1];	
+
+			newArticle.articlename = $entry.find('folderName').text();
+			newArticle.articletitle = $entry.find('articleTitle').text();
+			newArticle.author = $entry.find('author').text();
+			newArticle.kicker = $entry.find('kicker').text();
+			newArticle.description = $entry.find('description').text();
+			newArticle.tags = $entry.find('tags').text();
+
+			var hidefromtoc_bool = ($entry.find('homefromTOC').text() === "true") ? true : false;
+			newArticle.hidefromtoc = hidefromtoc_bool;
+
+			var isad_bool = ($entry.find('isad').text() === "true") ? true : false;
+			newArticle.isad = isad_bool;
+
+			newArticle.smoothscrolling = $entry.find('smoothScrolling').text();
+
+			var isflattenedstack_bool = ($entry.find('isFlattenedStack').text() === "true") ? true : false;
+			newArticle.isflattenedstack = isflattenedstack_bool;
+
+			console.log(folio);
+		});
+
+		builder.listArticles();
+	}
 }
 
 function write_article_html(value) {
-			console.log("-----displaying article #"+folio.uid);
+			console.log("-----displaying article #"+value.uid);
 			// begin nested list
-			var html = '<li id="article_'+folio.uid+'" class="article" data-article-nr="'+folio.uid+'"><ul>';
+			var html = '<li id="article_'+value.uid+'" class="article" data-article-nr="'+value.uid+'"><ul>';
 				// grabber and preview
-				html = html + '<li class="article-order"><span class="icon-align-justify"></span> <span class="icon-search"></span>'+folio.uid+'</li>';
+				html = html + '<li class="article-order"><span class="icon-align-justify"></span> <span class="icon-search"></span>'+value.uid+'</li>';
 				// name
 				html = html + '<li class="article-name"><input type="text" placeholder="Article Name" maxlength="60" value="'+String(value.articlename)+'" /></li>';
 				// title
@@ -249,7 +366,7 @@ $("#articles .article-smooth").live("click", function(e) {
 	var article_nr = $(e.target).parents("li.article").attr("data-article-nr");
 	console.log("changing smoothscrolling in article "+article_nr);
 
-	if (!$("#article_"+article_nr+" .article-smooth button.active").hasClass("btn_smooth_both"))
+	if (!$("#article_"+article_nr+" .article-smooth button.active").hasClass("btn_smooth_off"))
 		$("#article_"+article_nr+" .article-flatten button").removeClass("active");
 });
 
@@ -267,8 +384,19 @@ $("#articles .article-flatten").live("click", function(e) {
 
 // ****** modal windows
 $("#about-close").click(function() { $('#about').modal('hide') });
-$("#import-close").click(function() { $('#import').modal('hide') });
 $("#generate-close").click(function() { $('#generate').modal('hide') });
+
+// generate sidecar during showtime of the generate modal window
+$('#generate').on('show', function () {
+	builder.generateSidecar();
+});
+
+// import from textarea during closing time of import modal window
+$("#start-import").click(function() {
+	$("#import").modal('hide');
+	builder.importSidecar();
+	$("#sidecar-import").val("");
+});
 
 
 

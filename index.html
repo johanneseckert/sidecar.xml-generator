@@ -65,8 +65,13 @@
     <h3>About</h3>
   </div>
   <div class="modal-body">
-    <p>One fine body…</p>
-    <p>Version 0.5 from 2012-05-10</p>
+    <p>This sidecar.xml generator is brought to you by <a href="http://nordsueddesign.de">Johannes Henseler</a>, author of the blog <a href="http://digitalpublishing.tumblr.com">Secrets and Happiness of Digital Publishing"</a>.</p>
+    <p>I made this generator mainly for myself, but recently rebuilt everything from scratch using <a href="http://twitter.github.com/bootstrap/">twitter/bootstrap</a>. I checked everything, but I cannot guarantee for your sidecar file to work.</p>
+    <p>If you have any questions or issues, feel free to contact me directly at <a href="mailt:frisch@frischmil.ch">frisch@frischmil.ch</a>, or tweet me <a href="http://twitter.com/frischmilch">@frischmilch</a>.</p>
+    
+    <h4>Project Details</h4>
+    <p>This project and it's code is <a href="https://github.com/frischmilch/sidecar.xml-generator">available on github</a> where you can download the source code, fork it or put in any issues.</p>
+    <p><span class="label">Version 0.5 from 2012-05-10</span></p>
   </div>
   <div class="modal-footer">
     <a href="#" id="about-close" class="btn btn-primary">Close</a>
@@ -95,8 +100,9 @@
     <h3>Generate!</h3>
   </div>
   <div class="modal-body">
-    <p><span class="label label-success">Success</span> Your sidecar.xml file has been generated. Save the text below into a sidecar.xml file, put it into it's own folder and import into Folio Builder Panel. <a href="http://help.adobe.com/en_US/digitalpubsuite/using/WS67cb9e293e2f1f60606c7754128c7a9c00e-7fff.html#WS67cb9e293e2f1f60-60a064012f65fafa88-8000">Read more here.</a></p>
+    <p><span class="label label-success">Success</span> Your sidecar.xml file has been generated. Save the text below into a sidecar.xml file, put it into it's own folder and import into Folio Builder Panel. <a href="http://help.adobe.com/en_US/digitalpubsuite/using/WS67cb9e293e2f1f60606c7754128c7a9c00e-7fff.html#WS67cb9e293e2f1f60-60a064012f65fafa88-8000" target="_blank">Read more here.</a></p>
     <textarea id="sidecar-generate" cols="20" rows="50"></textarea>
+    <p>Hit <span class="label label-info">Cmd+A</span> to select everything</p>
   </div>
   <div class="modal-footer">
     <a href="#" id="generate-close" class="btn btn-primary">Close</a>
@@ -124,7 +130,7 @@
   <div id="article_list">
   <div class="subnav">
     <ul class="nav nav-pills">
-      <li><a href="#" class="article-order" title="Re-order and open preview"><span class="icon-align-justify"></span> <span class="icon-search"></span></a></li>
+      <li><a href="#" class="article-order" title="Drag to re-order and toggle preview"><span class="icon-align-justify"></span> <span class="icon-search"></span></a></li>
       <li><a href="#" class="article-name" title="Article/Folder name">Article Name</a></li>
       <li><a href="#" class="article-title" title="Title of article">Title</a></li>
       <li><a href="#" class="article-desc" title="Description of article">Description</a></li>
@@ -144,6 +150,11 @@
     </ul>
   </div>
 
+
+  <div class="alert" id="alert-sorting-disabled">
+    <button class="close" data-dismiss="alert">×</button>
+    <strong>Attention</strong> Sorting is disabled as long as you have any previews open. Sorry.
+  </div>
   <div class="article_add" id="article_add-between"></div>
   <div class="article_add" id="article_add-end"></div>
 
@@ -154,6 +165,38 @@
   </div>
 
 </div> <!-- /container -->
+
+<div id="hidden">
+    <div class="previews tabbable tabs-left">
+    <ul class="nav nav-tabs">
+      <li class="active"><a href="#landscape_XX" data-toggle="tab">Landscape</a></li>
+      <li><a href="#portrait_XX" data-toggle="tab">Portrait</a></li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane active" id="landscape_XX">
+        <div class="preview_landscape">
+          <p class="prev-header">Preview Folio</p>
+          <p class="prev-kicker">Kicker MI MI MI MI MI MI</p>
+          <p class="prev-title">Title MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI</p>
+          <p class="prev-author">Byline MI MI MI MI MI MI MI MI MI</p>
+          <p class="prev-description">Description MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI</p>
+          <p class="prev-tags">Tags MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI</p>
+        </div>
+      </div>
+      <div class="tab-pane" id="portrait_XX">
+        <div class="preview_portrait">
+          <p class="prev-header">Preview Folio</p>
+          <p class="prev-kicker">Kicker MI MI MI MI MI MI</p>
+          <p class="prev-title">Title MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI</p>
+          <p class="prev-author">Byline MI MI MI MI MI MI MI MI MI</p>
+          <p class="prev-description">Description MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI</p>
+          <p class="prev-tags">Tags MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 
     <!-- Le javascript
     ================================================== -->

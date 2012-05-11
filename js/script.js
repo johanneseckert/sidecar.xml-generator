@@ -13,10 +13,29 @@ $(function() {
 
 
 //*** activate popovers
-	$(".subnav a").tooltip({
+	$("[title]").tooltip({
 		placement: 'bottom'
 	});
+	$(".subnav a").click(function() { return false; });
 
+//*** fixed table header
+	var stickerTop = parseInt($('.subnav').offset().top)-40;
+	var sticked = false;
+	$(window).scroll(function() {
+	    if (parseInt($(window).scrollTop()) > stickerTop) {
+	    	if (!sticked) {
+		        $(".subnav").addClass("subnav-fixed");
+		        $("body").addClass("fixednav");
+		        sticked = true;
+	    	}
+	    } else {
+	    	if (sticked) {
+		        $(".subnav").removeClass("subnav-fixed");
+		        $("body").removeClass("fixednav");
+		        sticked = false;
+	    	}
+	    }
+	});
 
 //*** fix sub nav on scroll
 /*    var $win = $(window)
@@ -45,15 +64,24 @@ $(function() {
 
 //*** init buttons and forms */
 		$("#articles").sortable({
-			placeholder: "dragging-highlight",
 			containment: "#articles",
+			handle: '.icon-align-justify',
+			forcePlaceholderSize: true,
 			distance: 15,
 			axis: 'y',
-			forcePlaceholderSize: true,
 			opacity: 0.8,
+			start: function(event, ui) {
+//				$("#articles").sortable( 'refreshPositions' )
+				console.log('refreshed positions');
+				$(".collapse.in").addClass("hide-temporarily");
+//				$(".collapse.in").removeClass("in");
+			},
 			update: function(event, ui) {
 //				var result = $(this).sortable('toArray');
 //				builder.reOrder(result);
+			},
+			stop: function(event, ui) {
+				$(".collapse.in").removeClass("hide-temporarily");
 			}
 		});
 		$("#articles").disableSelection();
@@ -94,6 +122,7 @@ function builder() {
 	this.listArticles = function() {
 		// empty article list
 		$("#articles").html("");
+		$("#empty_folio").fadeOut("fast");
 
 		// go through each article in folio
 		var x = 0;
@@ -172,7 +201,7 @@ function builder() {
 				if ($(this).find(".btn_smooth_horizontal").hasClass("active"))
 					output = "landscape";
 				if ($(this).find(".btn_smooth_vertical").hasClass("active"))
-					output = "vertical";
+					output = "portrait";
 				if ($(this).find(".btn_smooth_never").hasClass("active"))
 					output = "never";
 				xw.writeElementString("smoothScrolling",output);
@@ -235,11 +264,13 @@ function builder() {
 			newArticle.description = $entry.find('description').text();
 			newArticle.tags = $entry.find('tags').text();
 
-			var hidefromtoc_bool = ($entry.find('homefromTOC').text() === "true") ? true : false;
+			var hidefromtoc_bool = ($entry.find('hideFromTOC').text() === "true") ? true : false;
 			newArticle.hidefromtoc = hidefromtoc_bool;
 
 			var isad_bool = ($entry.find('isad').text() === "true") ? true : false;
 			newArticle.isad = isad_bool;
+			// if marked as ad, also mark as "hide from toc"
+			if (isad_bool) newArticle.hidefromtoc = true;
 
 			newArticle.smoothscrolling = $entry.find('smoothScrolling').text();
 
@@ -258,19 +289,19 @@ function write_article_html(value) {
 			// begin nested list
 			var html = '<li id="article_'+value.uid+'" class="article" data-article-nr="'+value.uid+'"><ul>';
 				// grabber and preview
-				html = html + '<li class="article-order"><span class="icon-align-justify"></span> <span class="icon-search"></span>'+value.uid+'</li>';
+				html = html + '<li class="article-order"><span class="icon-align-justify"></span> <a class="icon-search" data-toggle="collapse" data-target="#preview_'+value.uid+'"></a></li>';
 				// name
 				html = html + '<li class="article-name"><input type="text" placeholder="Article Name" maxlength="60" value="'+String(value.articlename)+'" /></li>';
 				// title
 				html = html + '<li class="article-title"><input type="text" placeholder="Title" maxlength="60" value="'+String(value.articletitle)+'" /></li>';
 				// desc
-				html = html + '<li class="article-desc"><input type="text" placeholder="Description" maxlength="119" value="'+String(value.description)+'" /></li>';
+				html = html + '<li class="article-desc"><input type="text" placeholder="Description" maxlength="120" value="'+String(value.description)+'" /></li>';
 				// author
-				html = html + '<li class="article-author"><input type="text" placeholder="Author" maxlength="41" value="'+String(value.author)+'" /></li>';
+				html = html + '<li class="article-author"><input type="text" placeholder="Author" maxlength="40" value="'+String(value.author)+'" /></li>';
 				// kicker
-				html = html + '<li class="article-kicker"><input type="text" placeholder="Kicker" maxlength="36" value="'+String(value.kicker)+'" /></li>';
+				html = html + '<li class="article-kicker"><input type="text" placeholder="Kicker" maxlength="35" value="'+String(value.kicker)+'" /></li>';
 				// tags
-				html = html + '<li class="article-tags"><input type="text" placeholder="Tags" maxlength="100" value="'+String(value.tags)+'" /></li>';
+				html = html + '<li class="article-tags"><input type="text" placeholder="Tags" maxlength="75" value="'+String(value.tags)+'" /></li>';
 				// hidefromTOC
 				var output = (value.hidefromtoc) ? "active" : "";
 				html = html + '<li class="article-hide"><button class="btn '+output+'" data-toggle="button"><span class="lbl btn_off">No</span><span class="lbl btn_on">Yes</span></button></li>'
@@ -308,6 +339,8 @@ function write_article_html(value) {
 				html = html + '<li class="article-flatten"><button class="btn '+output+'" data-toggle="button"><span class="lbl btn_off">No</span><span class="lbl btn_on">Yes</span></button></li>'
 				// delete
 				html = html + '<li class="article-delete"><a href="#"><span class="icon-remove"></span></a></li>';
+				// preview pane (empty, for later cloning)
+				html = html + '<li class="article-preview collapse" id="preview_'+value.uid+'" >This is empty... still rendering?</li>'
 
 			// end nested list
 			html = html + '</ul></li>';
@@ -356,13 +389,19 @@ $("#articles .article-delete a").live("click", function(e) {
 
 	// remove article from DOM
 	$("#article_"+article_nr).remove();
+	// check if we can enable sorting again
+	if (!$("#articles .collapse.in").length) {
+		$("#articles .icon-align-justify").show();
+		$("#alert-sorting-disabled").fadeOut("fast");
+	}
+
 
 	console.log(folio)
 	return false;
 });
 
 // disable flattening when in smooth scrolling
-$("#articles .article-smooth").live("click", function(e) {
+$("#articles .article-smooth button").live("click", function(e) {
 	var article_nr = $(e.target).parents("li.article").attr("data-article-nr");
 	console.log("changing smoothscrolling in article "+article_nr);
 
@@ -371,7 +410,7 @@ $("#articles .article-smooth").live("click", function(e) {
 });
 
 // disable smooth scrolling when flattening
-$("#articles .article-flatten").live("click", function(e) {
+$("#articles .article-flatten button").live("click", function(e) {
 	var article_nr = $(e.target).parents("li.article").attr("data-article-nr");
 	console.log("changing flattening in article "+article_nr);
 
@@ -381,9 +420,69 @@ $("#articles .article-flatten").live("click", function(e) {
 	}
 });
 
+// enable hide from TOC when enabling ad
+$("#articles .article-adver button").live("click", function(e) {
+	var article_nr = $(e.target).parents("li.article").attr("data-article-nr");
+
+	if ($("#article_"+article_nr+" .article-adver button").hasClass("active"))
+		$("#article_"+article_nr+" .article-hide button").addClass("active");
+
+});
+
+// toggle all previews
+
+// render preview
+$("#articles .icon-search").live("click",function(e) {
+	var article_nr = $(this).parents("li.article").attr("data-article-nr");
+	console.log("starting to render preview for article #"+article_nr);
+
+	// hide all sorting handlers (sorry!)
+	if ($("#articles .collapse.in").length) {
+		$("#articles .icon-align-justify").hide();
+		$("#alert-sorting-disabled").fadeIn("fast");
+	} else {
+		$("#articles .icon-align-justify").show();
+		$("#alert-sorting-disabled").fadeOut("fast");
+	}
+	
+
+	// clone previews template and insert into preview pane (collapsed)
+	// but only if there is no previews in this article yet
+	if (!$(this).parents("li.article").find(".previews").length) {
+		$("#preview_"+article_nr).html("");
+		
+		// clone first
+		var cloned = $("#hidden .previews").clone(false);
+		// change IDs for tabs
+		var newid_landscape = "landscape_"+article_nr;
+		var newid_portrait = "portrait_"+article_nr;
+		$(cloned).find("a[href=#landscape_XX]").attr("href","#"+newid_landscape);
+		$(cloned).find("a[href=#portrait_XX]").attr("href","#"+newid_portrait);
+		$(cloned).find("#landscape_XX").attr("id",newid_landscape);
+		$(cloned).find("#portrait_XX").attr("id",newid_portrait);
+		// append changed elements
+		$(cloned).appendTo("#preview_"+article_nr);
+
+		// attach event handlers
+		bind_handlers(".article-title",".prev-title");
+		bind_handlers(".article-desc",".prev-description");
+		bind_handlers(".article-author",".prev-author");
+		bind_handlers(".article-kicker",".prev-kicker");
+		bind_handlers(".article-tags",".prev-tags");
+
+		function bind_handlers(where, to) {
+			$("#article_"+article_nr+" .previews "+to).html($("#article_"+article_nr+" "+where+" input").val());
+			$("#article_"+article_nr+" "+where+" input").bind("keyup", function(e) {
+				$("#article_"+article_nr+" .previews "+to).html($(this).val());
+			});
+		}
+
+	}
+});
 
 // ****** modal windows
 $("#about-close").click(function() { $('#about').modal('hide') });
+$("#import-close").click(function() { $('#import').modal('hide') });
 $("#generate-close").click(function() { $('#generate').modal('hide') });
 
 // generate sidecar during showtime of the generate modal window
@@ -394,31 +493,16 @@ $('#generate').on('show', function () {
 // import from textarea during closing time of import modal window
 $("#start-import").click(function() {
 	$("#import").modal('hide');
+
+	// reset UI
+	$("#alert-sorting-disabled").hide();
+	$("#articles .icon-align-justify").show();
+
 	builder.importSidecar();
 	$("#sidecar-import").val("");
 });
 
 
-
-
-
-
-
-//*** add new article hover
-    /*$("#last_line").mouseover(function(){
-    	var $pin = $("#article_add-end"), 
-    		$pos = $("#last_line").offset().top;
-    	console.log($pos);
-    	$pin.css("top",$pos);
-    	$pin.fadeIn("fast");
-
-    });
-
-    $("#last_line").mouseout(function() {
-    	var $pin = $("#article_add-end");
-
-    	$pin.delay(1000).fadeOut('slow'); 
-    });*/
 
 
 

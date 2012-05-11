@@ -23,7 +23,7 @@ Author
 This project is brought to you by Johannes Henseler.
 Blog "Secrets and Happiness of Digital Publishing": [digitalpublishing.tumblr.com](http://digitalpublishing.tumblr.com)
 Contact me via [frisch@frischmil.ch](mailto:frischmilch@gmail.com)
-twitter [@frischmil](http://twitter.com/frischmilch)
+twitter [@frischmilch](http://twitter.com/frischmilch)
 
 
 Release history

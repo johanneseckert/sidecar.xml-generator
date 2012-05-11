@@ -1,4 +1,4 @@
-sidecar.xml Generator
+Hsidecar.xml Generator
 =====================
 
 Generate a sidecar.xml file with all neccessary metadata for use in Adobe Digital Publishing Suite.
@@ -6,7 +6,7 @@ Generate a sidecar.xml file with all neccessary metadata for use in Adobe Digita
 Generator
 ---------
 
-**Visit [sidecar.xml generator at projects.nordsueddesign.de/sidecarxml](http://projects.nordsueddesign.de/sidecarxml)**
+**[Open sidecar.xml generator](http://projects.nordsueddesign.de/sidecarxml)**
 
 Corresponding [blog post at digitalpublishgin.tumblr.com](http://digitalpublishing.tumblr.com).
 

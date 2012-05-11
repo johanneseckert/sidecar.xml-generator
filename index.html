@@ -1,93 +1,210 @@
-<!doctype html>  
+
+<!DOCTYPE html>
 <!--
 	sidecar.xml generator for Adobe Digital Publishing Suite
 
 	by Johannes Henseler
 	digitalpublishing.tumblr.com
--->
-<html>
-<head>
-<!-- title not visible in the viewer unless viewed with a browser / popup -->
-<title>Adobe DPS: sidecar.xml generator (v18)</title>
-	<meta charset="utf-8" />
+-->	
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>sidecar.xml for Adobe DPS</title>
+    <meta name="viewport" content="width=1360, initial-scale=1.0">
+    <meta name="description" content="sidecar.xml generator for Adobe Digital Publishing Suite">
+    <meta name="author" content="Johannes Henseler">
 
+    <!-- Le styles -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fonts -->
 	<script type="text/javascript" src="http://use.typekit.com/tdq3fad.js"></script>
 	<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
 
-	<link type="text/css" href="css/custom-theme/jquery-ui-1.8.13.custom.css" rel="stylesheet" />	
-	<link type="text/css" href="css/jquery.qtip.min.css" rel="stylesheet" />	
-	<link type="text/css" href="css/style.css" rel="stylesheet" />	
-</head>
-<body>
-	<header>
-		<h1>sidecar.xml generator <span>for Adobe's Digital Publishing Suite</span> (v18)</h1>
-	</header>
-	<div id="menu">
-		<div class="left">
-			<button id="add_article" title="Add a new article at the bottom">Add Article</button>
-		</div>
-		<div class="right">
-			<input type="checkbox" class="button" id="incllink" title="Include Permalink in sidecar file" checked="checked" /><label for="incllink">Include Link</label>
-			<button id="generate">Generate sidecar.xml</button>
-			<button id="save">Save</button>
-		</div>
-	</div>
+    <!-- Le fav and touch icons -->
+	<link rel="shortcut icon" href="img/favicon.ico">
+	<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="img/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="img/apple-touch-icon-114x114.png">
+  </head>
 
-	<div id="wrapper">
-		<div id="articleheads">
-			<div class="grabber">&nbsp;</div>
-			<div class="ordernumber">#</div>
-			<div class="foldername">Article Name</div>
-			<div class="articletitle">Title</div>
-			<div class="description">Description</div>
-			<div class="author">Author</div>
-			<div class="kicker">Kicker</div>
-			<div class="tags">Tags</div>
-			<div class="isad">Advertisement</div>
-			<div class="smoothscrolling">Smooth scrolling <span class="attention" title="Set Smooth Scrolling to 'Off' when using 'Horizontal Swipe Only'!">Attention</span></div>
-			<div class="isflattenedstack">Horiz. Swipe Only</div>
-			<div class="remove">Delete</div>
-		</div>
-		<ul id="articlelist">
-			<li>Empty Folio</li>
-		</ul>
-	</div>
+  <body>
 
-<div id="dialog-message" title="your sidecar.xml">
-	<p>
-		<span class="ui-icon ui-icon-circle-check" style="float:left; margin:0 7px 50px 0;"></span>
-		Your sidecar.xml file has been generated. Save the text below into a sidecar.xml file, put it into it's own folder and import into Folio Builder Panel. <a href="http://help.adobe.com/en_US/digitalpubsuite/using/WS67cb9e293e2f1f6014465f4712f61e55c01-7fff.html#WS9293e1fb3b977c5c-3a30084513028f6630b-8000">Read more here.</a>
-	</p>
-	<p>
-		<textarea id="sidecar-output" cols="50" rows="20">[nothing here]</textarea>
-	</p>
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="#">sidecar.xml generator</a>
+          <div class="nav-collapse">
+            <ul class="nav">
+              <li><a data-toggle="modal" href="#about">About</a></li>
+              <li class="divider-vertical"></li>
+              <li><a data-toggle="modal" href="#import">Import</a></li>
+              <li class="divider-vertical"></li>
+              <li><a data-toggle="modal" href="#generate">Generate!</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+<!-- modals -->
+<div class="modal fade" id="about">
+  <div class="modal-header">
+    <button class="close" data-dismiss="modal">×</button>
+    <h3>About</h3>
+  </div>
+  <div class="modal-body">
+    <p>This sidecar.xml generator is brought to you by <a href="http://nordsueddesign.de">Johannes Henseler</a>, author of the blog <a href="http://digitalpublishing.tumblr.com">Secrets and Happiness of Digital Publishing"</a>.</p>
+    <p>I made this generator mainly for myself, but recently rebuilt everything from scratch using <a href="http://twitter.github.com/bootstrap/">twitter/bootstrap</a>. I checked everything, but I cannot guarantee for your sidecar file to work.</p>
+    <p>If you have any questions or issues, feel free to contact me directly at <a href="mailt:frisch@frischmil.ch">frisch@frischmil.ch</a>, or tweet me <a href="http://twitter.com/frischmilch">@frischmilch</a>.</p>
+    
+    <h4>Project Details</h4>
+    <p>This project and it's code is <a href="https://github.com/frischmilch/sidecar.xml-generator">available on github</a> where you can download the source code, fork it or put in any issues.</p>
+    <p><span class="label">Version 0.5 from 2012-05-10</span></p>
+  </div>
+  <div class="modal-footer">
+    <a href="#" id="about-close" class="btn btn-primary">Close</a>
+  </div>
 </div>
 
-	<footer>
-		v0.3.120123 &mdash; Brought to you by Johannes Henseler &mdash; <a href="http://digitalpublishing.tumblr.com">digitalpublishing.tumblr.com</a> &mdash; <a href="mailto:johannes@nordsueddesign.de">johannes@nordsueddesign.de</a>
-	</footer>
+<div class="modal fade" id="import">
+  <div class="modal-header">
+    <button class="close" data-dismiss="modal">×</button>
+    <h3>Import</h3>
+  </div>
+  <div class="modal-body">
+    <p>Copy and paste the complete content of your sidecar.xml file here to fill out the form and start editing.</p>
+    <textarea id="sidecar-import" cols="20" rows="50"></textarea>
+  </div>
+  <div class="modal-footer">
+    <p class="notice"><span class="label label-warning">Warning</span> This will override all fields below.</p>
+    <a href="#" id="import-close" class="btn">Cancel</a>
+    <a href="#" id="start-import" class="btn btn-primary">Import</a>
+  </div>
+</div>
+
+<div class="modal fade" id="generate">
+  <div class="modal-header">
+    <button class="close" data-dismiss="modal">×</button>
+    <h3>Generate!</h3>
+  </div>
+  <div class="modal-body">
+    <p><span class="label label-success">Success</span> Your sidecar.xml file has been generated. Save the text below into a sidecar.xml file, put it into it's own folder and import into Folio Builder Panel. <a href="http://help.adobe.com/en_US/digitalpubsuite/using/WS67cb9e293e2f1f60606c7754128c7a9c00e-7fff.html#WS67cb9e293e2f1f60-60a064012f65fafa88-8000" target="_blank">Read more here.</a></p>
+    <textarea id="sidecar-generate" cols="20" rows="50"></textarea>
+    <p>Hit <span class="label label-info">Cmd+A</span> to select everything</p>
+  </div>
+  <div class="modal-footer">
+    <a href="#" id="generate-close" class="btn btn-primary">Close</a>
+  </div>
+</div>
 
 
-	<script type="text/javascript" src="js/jquery-1.6.1.min.js"></script>
-	<script type="text/javascript" src="js/jquery-ui-1.8.13.custom.min.js"></script>
-	<script type="text/javascript" src="js/jquery.qtip.min.js"></script>
-	<script type="text/javascript" src="js/jquery.ba-bbq.min.js"></script>
-	<script type="text/javascript" src="js/XMLWriter-1.0.0-min.js"></script>
+<!-- content -->
+<div class="container">
 
-	<script type="text/javascript" src="js/plugin.js"></script>
+	<header>
 
-	<script type="text/javascript">
+    <div class="alert alert-info">
+      <button class="close" data-dismiss="alert">×</button>
+      <strong>All new!</strong> This a new version of the generator. If you want to edit your previous sidecar.xml, use the import method.
+    </div>
 
-	  var _gaq = _gaq || [];
-	  _gaq.push(['_setAccount', 'UA-95147-25']);
-	  _gaq.push(['_trackPageview']);
+		<h1>sidecar.xml generator</h1>
+		<p class="lead">
+			Add all your articles and metadata into these fields and then push "Generate!" to get the resulting data. <br />
+      Write the lines into a sidecar.xml file and put it into it's own directory and import as "Multiple Articles" in the Folio Builder Panel.
+		</p>
+	</header>
 
-	  (function() {
-	    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-	    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-	    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-	  })();
+  <div id="article_list">
+  <div class="subnav">
+    <ul class="nav nav-pills">
+      <li><a href="#" class="article-order" title="Drag to re-order and toggle preview"><span class="icon-align-justify"></span> <span class="icon-search"></span></a></li>
+      <li><a href="#" class="article-name" title="Article/Folder name">Article Name</a></li>
+      <li><a href="#" class="article-title" title="Title of article">Title</a></li>
+      <li><a href="#" class="article-desc" title="Description of article">Description</a></li>
+      <li><a href="#" class="article-author" title="Name the author(s)">Author</a></li>
+      <li><a href="#" class="article-kicker" title="Kicker/Section/Segment">Kicker</a></li>
+      <li><a href="#" class="article-tags" title="Comma separated list of tags">Tags</a></li>
+      <li><a href="#" class="article-hide" title="Hide from the viewer's Table of Contents">Hide</a></li>
+      <li><a href="#" class="article-adver" title="Mark as Ad (useful in Analytics)">Ad</a></li>
+      <li><a href="#" class="article-smooth" title="Attention:<br /> Needs to be 'off' in combination with 'Horizontal Swipe only'.">Smooth Scrolling (!)</a></li>
+      <li><a href="#" class="article-flatten" title="Display an article with more than one page as a series of horizontal articles.">Flatten (?)</a></li>
+      <li><a href="#" class="article-delete" title="Delete article from sidecar">Remove</a></li>
+    </ul>
+  </div>
 
-	</script>
-</body>
+  <div id="folio">
+    <ul id="articles" class="clearfix">
+    </ul>
+  </div>
+
+
+  <div class="alert" id="alert-sorting-disabled">
+    <button class="close" data-dismiss="alert">×</button>
+    <strong>Attention</strong> Sorting is disabled as long as you have any previews open. Sorry.
+  </div>
+  <div class="article_add" id="article_add-between"></div>
+  <div class="article_add" id="article_add-end"></div>
+
+  <!--  <div id="last_line"></div> -->
+  <p id="empty_folio">
+    Folio is empty. Add your first article.
+  </p>
+  </div>
+
+</div> <!-- /container -->
+
+<div id="hidden">
+    <div class="previews tabbable tabs-left">
+    <ul class="nav nav-tabs">
+      <li class="active"><a href="#landscape_XX" data-toggle="tab">Landscape</a></li>
+      <li><a href="#portrait_XX" data-toggle="tab">Portrait</a></li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane active" id="landscape_XX">
+        <div class="preview_landscape">
+          <p class="prev-header">Preview Folio</p>
+          <p class="prev-kicker">Kicker MI MI MI MI MI MI</p>
+          <p class="prev-title">Title MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI</p>
+          <p class="prev-author">Byline MI MI MI MI MI MI MI MI MI</p>
+          <p class="prev-description">Description MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI</p>
+          <p class="prev-tags">Tags MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI</p>
+        </div>
+      </div>
+      <div class="tab-pane" id="portrait_XX">
+        <div class="preview_portrait">
+          <p class="prev-header">Preview Folio</p>
+          <p class="prev-kicker">Kicker MI MI MI MI MI MI</p>
+          <p class="prev-title">Title MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI</p>
+          <p class="prev-author">Byline MI MI MI MI MI MI MI MI MI</p>
+          <p class="prev-description">Description MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI</p>
+          <p class="prev-tags">Tags MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI MI</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="js/jquery-1.7.2.min.js"></script>
+    <script src="js/jquery-ui-1.8.20.custom.min.js"></script>
+    <script src="js/XMLWriter-1.0.0-min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/script.js"></script>
+  </body>
 </html>

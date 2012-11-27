@@ -29,6 +29,9 @@ twitter [@frischmilch](http://twitter.com/frischmilch)
 Release history
 ---------------
 
+v0.6 November 27, 2011
+— added support for sections
+
 v0.5 June 29, 2011
 — rebuilt from scratch using bootstrap
 —— new design

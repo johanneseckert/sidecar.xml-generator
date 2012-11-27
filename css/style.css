@@ -142,7 +142,8 @@ body.fixednav {
 .article-desc { width: 120px; }
 .article-author { width: 120px; }
 .article-kicker { width: 100px; }
-.article-tags { width: 100px; }
+.article-tags { width: 50px; }
+.article-section { width: 50px; }
 .article-hide { width: 40px; }
 .article-adver { width: 40px; }
 .article-smooth { width: 180px; }

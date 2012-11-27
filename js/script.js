@@ -185,6 +185,7 @@ function builder() {
 				xw.writeElementString("author",String($(this).find(".article-author input").val()));
 				xw.writeElementString("kicker",String($(this).find(".article-kicker input").val()));
 				xw.writeElementString("tags",String($(this).find(".article-tags input").val()));
+				xw.writeElementString("section",String($(this).find(".article-section input").val()));
 				// Hide from TOC
 				var output = ($(this).find(".article-hide .btn").hasClass("active")) ? "true" : "false";
 				xw.writeElementString("hideFromTOC",output);
@@ -263,6 +264,7 @@ function builder() {
 			newArticle.kicker = $entry.find('kicker').text();
 			newArticle.description = $entry.find('description').text();
 			newArticle.tags = $entry.find('tags').text();
+			newArticle.section = $entry.find('section').text();
 
 			var hidefromtoc_bool = ($entry.find('hideFromTOC').text() === "true") ? true : false;
 			newArticle.hidefromtoc = hidefromtoc_bool;
@@ -302,6 +304,8 @@ function write_article_html(value) {
 				html = html + '<li class="article-kicker"><input type="text" placeholder="Kicker" maxlength="35" value="'+String(value.kicker)+'" /></li>';
 				// tags
 				html = html + '<li class="article-tags"><input type="text" placeholder="Tags" maxlength="75" value="'+String(value.tags)+'" /></li>';
+				// sections
+				html = html + '<li class="article-section"><input type="text" placeholder="Section" maxlength="75" value="'+String(value.section)+'" /></li>';
 				// hidefromTOC
 				var output = (value.hidefromtoc) ? "active" : "";
 				html = html + '<li class="article-hide"><button class="btn '+output+'" data-toggle="button"><span class="lbl btn_off">No</span><span class="lbl btn_on">Yes</span></button></li>'

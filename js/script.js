@@ -112,6 +112,7 @@ function article() {
 	this.author = "";
 	this.kicker = "";
 	this.tags = "";
+	this.section = "";
 	this.hidefromtoc = false;
 	this.isad = false;
 	this.smoothscrolling = "never";

@@ -294,7 +294,7 @@ function write_article_html(value) {
 				// grabber and preview
 				html = html + '<li class="article-order"><span class="icon-align-justify"></span> <a class="icon-search" data-toggle="collapse" data-target="#preview_'+value.uid+'"></a></li>';
 				// name
-				html = html + '<li class="article-name"><input type="text" placeholder="Article Name" maxlength="60" value="'+String(value.articlename)+'" /></li>';
+				html = html + '<li class="article-name"><input type="text" placeholder="Folder Name" maxlength="60" value="'+String(value.articlename)+'" /></li>';
 				// title
 				html = html + '<li class="article-title"><input type="text" placeholder="Title" maxlength="60" value="'+String(value.articletitle)+'" /></li>';
 				// desc

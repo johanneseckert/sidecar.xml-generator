@@ -29,6 +29,9 @@ twitter [@frischmilch](http://twitter.com/frischmilch)
 Release history
 ---------------
 
+v0.7 April 16, 2013
+— clarification for title of first input field (Article Name can also be Folder Name)
+
 v0.6 November 27, 2011
 — added support for sections
 

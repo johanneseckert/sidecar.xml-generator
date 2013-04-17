@@ -1,10 +1,10 @@
 /*!
  * sidecar.xml generator
  *
- * Copyright 2011-2012
+ * 2011-2013
  * Johannes Henseler
  *
- * v0.3
+ * v0.7
  *
  * http://digitalpublishing.tumblr.com
  */
@@ -173,7 +173,7 @@ function builder() {
 		// comment and info
 		var now = new Date();
 		var build_date = now.getFullYear()+"-"+(now.getMonth()+1)+"-"+now.getDate();
-		xw.writeComment("\nsidecar.xml generator by Johannes Henseler\nhttp://projects.nordsueddesign.de/sidecarxml\n\nBuilt on "+build_date+" using version 0.5 of the generator.\nTo edit this sidecar, import it into the generator again.\n\n");
+		xw.writeComment("\nsidecar.xml generator by Johannes Eckert\nhttp://projects.nordsueddesign.de/sidecarxml\n\nBuilt on "+build_date+" using version 0.7 of the generator.\nTo edit this sidecar, import it into the generator again.\n\n");
 
 		// more magic here
 		// fetch all articles from the DOM
